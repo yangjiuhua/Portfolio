@@ -99,6 +99,30 @@
       opacity: 0.15;
     }
   }
+
+  .sound-toggle {
+    background: none;
+    border: 1px solid rgba(0, 255, 200, 0.15);
+    border-radius: 8px;
+    color: rgba(0, 255, 200, 0.5);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      color: #00ffc8;
+      border-color: rgba(0, 255, 200, 0.3);
+    }
+  }
 }
 
 .canvas-container {

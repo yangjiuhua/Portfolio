@@ -78,6 +78,8 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   private stars: Star[] = [];
   private keys: Record<string, boolean> = {};
   private shootCooldown = 0;
+  private audioCtx: AudioContext | null = null;
+  soundEnabled = signal(true);
 
   private readonly enemyTypes: { label: string; color: string; hp: number; speed: number }[] = [
     { label: 'BUG', color: '#ff5f56', hp: 1, speed: 1.5 },
@@ -126,7 +128,12 @@ export class GameComponent implements AfterViewInit, OnDestroy {
     this.initCanvas();
   }
 
+  toggleSound(): void {
+    this.soundEnabled.update(v => !v);
+  }
+
   startGame(): void {
+    if (!this.audioCtx) this.audioCtx = new AudioContext();
     this.score.set(0);
     this.lives.set(3);
     this.bullets = [];
@@ -227,6 +234,7 @@ export class GameComponent implements AfterViewInit, OnDestroy {
       this.bullets.push({ x: this.ship.x - 8, y: this.ship.y - this.ship.h / 2, speed: 8 });
       this.bullets.push({ x: this.ship.x + 8, y: this.ship.y - this.ship.h / 2, speed: 8 });
       this.shootCooldown = 10;
+      this.sfxShoot();
     }
 
     for (const b of this.bullets) b.y -= b.speed;
@@ -254,6 +262,7 @@ export class GameComponent implements AfterViewInit, OnDestroy {
       if (e.y + e.h / 2 > this.H - 10) {
         this.lives.update(v => v - 1);
         this.spawnExplosion(e.x, this.H - 10, '#ff5f56', 6);
+        this.sfxDamage();
         e.y = this.H + 100;
         if (this.lives() <= 0) this.endGame();
       }
@@ -290,8 +299,10 @@ export class GameComponent implements AfterViewInit, OnDestroy {
             this.score.update(v => v + 10);
             this.spawnExplosion(e.x, e.y, e.color, 10);
             this.enemies.splice(ei, 1);
+            this.sfxExplosion();
           } else {
             this.spawnExplosion(b.x, b.y, '#00ffc8', 3);
+            this.sfxHit();
           }
           break;
         }
@@ -304,6 +315,7 @@ export class GameComponent implements AfterViewInit, OnDestroy {
       if (dx < (this.ship.w + e.w) / 2 - 4 && dy < (this.ship.h + e.h) / 2 - 4) {
         this.lives.update(v => v - 1);
         this.spawnExplosion(e.x, e.y, '#ff5f56', 12);
+        this.sfxDamage();
         e.y = this.H + 100;
         if (this.lives() <= 0) this.endGame();
       }
@@ -349,6 +361,7 @@ export class GameComponent implements AfterViewInit, OnDestroy {
 
   private endGame(): void {
     this.gameState.set('over');
+    this.sfxGameOver();
     if (this.score() > this.highScore()) {
       this.highScore.set(this.score());
       localStorage.setItem('shuttle_highscore', String(this.score()));
@@ -514,6 +527,91 @@ export class GameComponent implements AfterViewInit, OnDestroy {
     this.ctx.lineTo(x, y + r);
     this.ctx.quadraticCurveTo(x, y, x + r, y);
     this.ctx.closePath();
+  }
+
+  // --- Audio SFX (Web Audio API, no external files) ---
+
+  private sfxShoot(): void {
+    if (!this.soundEnabled() || !this.audioCtx) return;
+    const ctx = this.audioCtx;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.08);
+  }
+
+  private sfxExplosion(): void {
+    if (!this.soundEnabled() || !this.audioCtx) return;
+    const ctx = this.audioCtx;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(400, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.25);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.25);
+  }
+
+  private sfxHit(): void {
+    if (!this.soundEnabled() || !this.audioCtx) return;
+    const ctx = this.audioCtx;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(600, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.1);
+  }
+
+  private sfxDamage(): void {
+    if (!this.soundEnabled() || !this.audioCtx) return;
+    const ctx = this.audioCtx;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(200, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.3);
+  }
+
+  private sfxGameOver(): void {
+    if (!this.soundEnabled() || !this.audioCtx) return;
+    const ctx = this.audioCtx;
+    const notes = [440, 370, 311, 220];
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'square';
+      const t = ctx.currentTime + i * 0.2;
+      osc.frequency.setValueAtTime(freq, t);
+      gain.gain.setValueAtTime(0.12, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+      osc.start(t);
+      osc.stop(t + 0.25);
+    });
   }
 
   onTouchStart(key: string): void {

@@ -24,6 +24,9 @@
           <span class="hud-label">HIGH</span>
           <span class="hud-value">{{ highScore() }}</span>
         </div>
+        <button class="sound-toggle" (click)="toggleSound()">
+          <mat-icon>{{ soundEnabled() ? 'volume_up' : 'volume_off' }}</mat-icon>
+        </button>
       </div>
 
       <div class="canvas-container">
