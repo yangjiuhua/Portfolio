@@ -1,0 +1,124 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 2rem;
+  transition: all 0.3s ease;
+  background: transparent;
+
+  &.scrolled {
+    background: rgba(10, 10, 20, 0.95);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 2px 20px rgba(0, 255, 200, 0.1);
+    padding: 0.5rem 2rem;
+  }
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  letter-spacing: -0.02em;
+
+  .logo-bracket {
+    color: #00ffc8;
+  }
+
+  .logo-text {
+    color: #fff;
+    margin: 0 2px;
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+
+  &:hover {
+    color: #00ffc8;
+    background: rgba(0, 255, 200, 0.08);
+  }
+}
+
+.game-link {
+  color: #ff6b00 !important;
+  font-weight: 600;
+
+  &:hover {
+    color: #ffc107 !important;
+    background: rgba(255, 107, 0, 0.1);
+  }
+}
+
+.lang-toggle {
+  margin-left: 0.5rem;
+  border-color: rgba(0, 255, 200, 0.4) !important;
+  color: #00ffc8 !important;
+  font-size: 0.85rem;
+  border-radius: 20px !important;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+  }
+}
+
+.mobile-toggle {
+  display: none;
+  color: #00ffc8 !important;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 10, 20, 0.98);
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    z-index: 999;
+
+    &.mobile-open {
+      display: flex;
+    }
+
+    .nav-link {
+      font-size: 1.3rem;
+    }
+  }
+
+  .mobile-toggle {
+    display: block;
+    z-index: 1001;
+  }
+}

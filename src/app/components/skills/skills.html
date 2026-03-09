@@ -1,0 +1,35 @@
+<section id="skills" class="skills">
+  <div class="section-container">
+    <h2 class="section-title">
+      <span class="title-decorator">//</span>
+      {{ lang.t('skills.title') }}
+    </h2>
+    <p class="section-subtitle">{{ lang.t('skills.subtitle') }}</p>
+
+    <div class="skills-grid">
+      @for (category of categories; track category.titleKey) {
+        <div class="skill-category">
+          <div class="category-header">
+            <div class="category-icon">
+              <mat-icon>{{ category.icon }}</mat-icon>
+            </div>
+            <h3>{{ lang.t(category.titleKey) }}</h3>
+          </div>
+          <div class="skill-list">
+            @for (skill of category.skills; track skill.name) {
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span class="skill-emoji">{{ skill.icon }}</span>
+                  <span class="skill-name">{{ skill.name }}</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-fill" [style.width.%]="skill.level"></div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

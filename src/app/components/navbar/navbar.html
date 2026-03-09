@@ -1,0 +1,26 @@
+<nav [class.scrolled]="scrolled()" class="navbar">
+  <div class="navbar-container">
+    <a class="logo" (click)="scrollTo('hero')">
+      <span class="logo-bracket">&lt;</span>
+      <span class="logo-text">Savi</span>
+      <span class="logo-bracket">/&gt;</span>
+    </a>
+
+    <div class="nav-links" [class.mobile-open]="mobileMenuOpen()">
+      <a class="nav-link" (click)="scrollTo('hero')">{{ lang.t('nav.home') }}</a>
+      <a class="nav-link" (click)="scrollTo('about')">{{ lang.t('nav.about') }}</a>
+      <a class="nav-link" (click)="scrollTo('skills')">{{ lang.t('nav.skills') }}</a>
+      <a class="nav-link" (click)="scrollTo('projects')">{{ lang.t('nav.projects') }}</a>
+      <a class="nav-link" (click)="scrollTo('contact')">{{ lang.t('nav.contact') }}</a>
+      <a class="nav-link game-link" (click)="scrollTo('game')">{{ lang.t('nav.game') }}</a>
+      <button mat-stroked-button class="lang-toggle" (click)="toggleLanguage()">
+        <mat-icon>translate</mat-icon>
+        {{ lang.t('nav.language') }}
+      </button>
+    </div>
+
+    <button mat-icon-button class="mobile-toggle" (click)="toggleMobileMenu()">
+      <mat-icon>{{ mobileMenuOpen() ? 'close' : 'menu' }}</mat-icon>
+    </button>
+  </div>
+</nav>

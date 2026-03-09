@@ -1,0 +1,51 @@
+<section id="hero" class="hero">
+  <div class="hero-bg">
+    <div class="grid-lines"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="particles">
+      @for (i of [1,2,3,4,5,6,7,8]; track i) {
+        <div class="particle" [style.--delay]="i * 0.5 + 's'" [style.--x]="(i * 12) + '%'"></div>
+      }
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="terminal-tag">
+      <span class="tag-bracket">&gt;</span>
+      <span class="tag-text">{{ displayText() }}</span>
+      <span class="cursor" [class.deleting]="!isTyping()">_</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="greeting">{{ lang.t('hero.greeting') }}</span>
+      <span class="name">{{ lang.t('hero.name') }}</span>
+    </h1>
+
+    <h2 class="hero-role">{{ lang.t('hero.title') }}</h2>
+    <p class="hero-subtitle">{{ lang.t('hero.subtitle') }}</p>
+
+    <div class="hero-actions">
+      <button mat-flat-button class="cta-primary" (click)="scrollTo('projects')">
+        <mat-icon>rocket_launch</mat-icon>
+        {{ lang.t('hero.cta') }}
+      </button>
+      <button mat-stroked-button class="cta-secondary" (click)="scrollTo('contact')">
+        <mat-icon>mail</mat-icon>
+        {{ lang.t('hero.contact') }}
+      </button>
+    </div>
+
+    <div class="tech-badges">
+      @for (badge of ['vLLM', 'DeepSpeed', 'LLaMA-Factory', 'CUDA', 'PyTorch']; track badge) {
+        <span class="tech-badge">{{ badge }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="scroll-indicator" (click)="scrollTo('about')">
+    <div class="mouse">
+      <div class="wheel"></div>
+    </div>
+  </div>
+</section>

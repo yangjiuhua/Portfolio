@@ -1,0 +1,91 @@
+<section id="contact" class="contact">
+  <div class="section-container">
+    <h2 class="section-title">
+      <span class="title-decorator">//</span>
+      {{ lang.t('contact.title') }}
+    </h2>
+    <p class="section-subtitle">{{ lang.t('contact.subtitle') }}</p>
+
+    <div class="contact-grid">
+      <form class="contact-form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>{{ lang.t('contact.name') }}</mat-label>
+          <input matInput [(ngModel)]="name" name="name" required />
+          <mat-icon matPrefix>person</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>{{ lang.t('contact.email') }}</mat-label>
+          <input matInput [(ngModel)]="email" name="email" type="email" required />
+          <mat-icon matPrefix>email</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>{{ lang.t('contact.message') }}</mat-label>
+          <textarea matInput [(ngModel)]="message" name="message" rows="5" required></textarea>
+          <mat-icon matPrefix>chat</mat-icon>
+        </mat-form-field>
+
+        <button mat-flat-button type="submit" class="submit-btn">
+          <mat-icon>send</mat-icon>
+          {{ lang.t('contact.send') }}
+        </button>
+      </form>
+
+      <div class="contact-info">
+        <div class="info-card">
+          <div class="info-icon">
+            <mat-icon>terminal</mat-icon>
+          </div>
+          <div class="info-content">
+            <h4>{{ lang.t('contact.github') }}</h4>
+            <a href="https://github.com/yangjiuhua" target="_blank" rel="noopener">github.com/yangjiuhua</a>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <mat-icon>work</mat-icon>
+          </div>
+          <div class="info-content">
+            <h4>{{ lang.t('contact.linkedin') }}</h4>
+            <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn Profile</a>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <mat-icon>email</mat-icon>
+          </div>
+          <div class="info-content">
+            <h4>{{ lang.t('contact.email.label') }}</h4>
+            <a href="mailto:savi&#64;example.com">savi&#64;example.com</a>
+          </div>
+        </div>
+
+        <div class="terminal-block">
+          <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="terminal-title">savi&#64;ai-cluster</span>
+          </div>
+          <div class="terminal-body" #termBody>
+            @for (line of termLines(); track $index) {
+              @if (line.type === 'command') {
+                <p><span class="prompt">$</span> {{ line.text }}</p>
+              } @else {
+                <p class="response">{{ line.text }}</p>
+              }
+            }
+            <p>
+              <span class="prompt">$</span>
+              <span class="typing-text">{{ currentTyping() }}</span>
+              <span class="cursor-blink">_</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

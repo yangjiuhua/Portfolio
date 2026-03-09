@@ -1,0 +1,29 @@
+<section id="projects" class="projects">
+  <div class="section-container">
+    <h2 class="section-title">
+      <span class="title-decorator">//</span>
+      {{ lang.t('projects.title') }}
+    </h2>
+    <p class="section-subtitle">{{ lang.t('projects.subtitle') }}</p>
+
+    <div class="projects-grid">
+      @for (project of projects; track project.titleKey) {
+        <div class="project-card">
+          <div class="card-header">
+            <div class="project-icon" [style.background]="project.gradient">
+              <mat-icon>{{ project.icon }}</mat-icon>
+            </div>
+            <div class="card-line" [style.background]="project.gradient"></div>
+          </div>
+          <h3 class="project-title">{{ lang.t(project.titleKey) }}</h3>
+          <p class="project-desc">{{ lang.t(project.descKey) }}</p>
+          <div class="project-tech">
+            @for (tag of getTechTags(project.techKey); track tag) {
+              <span class="tech-tag">{{ tag }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

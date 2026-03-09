@@ -1,0 +1,162 @@
+.skills {
+  padding: 6rem 2rem;
+  position: relative;
+
+  @media (max-width: 480px) {
+    padding: 3.5rem 1.25rem;
+  }
+}
+
+.section-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  .title-decorator {
+    color: #00ffc8;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-weight: 400;
+    opacity: 0.6;
+  }
+
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0, 255, 200, 0.3), transparent);
+    margin-left: 1rem;
+  }
+}
+
+.section-subtitle {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  margin-bottom: 3rem;
+  padding-left: 2.5rem;
+
+  @media (max-width: 480px) {
+    padding-left: 0;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+
+  @media (max-width: 400px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.skill-category {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 255, 200, 0.08);
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: rgba(0, 255, 200, 0.2);
+    background: rgba(0, 255, 200, 0.03);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 255, 200, 0.06);
+  }
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+
+  .category-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(0, 255, 200, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      color: #00ffc8;
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  h3 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+}
+
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.skill-item {
+  .skill-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+
+    .skill-emoji {
+      font-size: 0.9rem;
+    }
+
+    .skill-name {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.skill-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+
+  .skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ffc8, #00b4ff);
+    border-radius: 2px;
+    transition: width 1s ease-out;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -1px;
+      width: 6px;
+      height: 6px;
+      background: #00ffc8;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0, 255, 200, 0.5);
+    }
+  }
+}
