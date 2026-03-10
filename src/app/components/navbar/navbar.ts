@@ -26,10 +26,12 @@ export class NavbarComponent {
 
   toggleMobileMenu(): void {
     this.mobileMenuOpen.update((v) => !v);
+    document.body.style.overflow = this.mobileMenuOpen() ? 'hidden' : '';
   }
 
   scrollTo(id: string): void {
     this.mobileMenuOpen.set(false);
+    document.body.style.overflow = '';
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   }
 }

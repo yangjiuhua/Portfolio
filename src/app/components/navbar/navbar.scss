@@ -110,6 +110,7 @@
 
     &.mobile-open {
       display: flex;
+      overflow-y: auto;
     }
 
     .nav-link {
